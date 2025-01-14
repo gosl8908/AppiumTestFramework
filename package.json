@@ -1,0 +1,50 @@
+{
+  "name": "monki_app",
+  "version": "1.0.0",
+  "description": "Your project description",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha project/app/test.js",
+    "signup": "mocha project/app/signup3.js --timeout 10000 --reporter allure-mocha",
+    "allure:clean": "rimraf allure-results && rimraf allure-report",
+    "allure:generate": "yarn run allure:clean && allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "test:allure": "yarn test && yarn run allure:generate && yarn run allure:open"
+  },
+  "keywords": [
+    "test",
+    "automation"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "@wdio/appium-service": "^8.38.0",
+    "@wdio/cli": "^8.38.0",
+    "adbkit": "^2.11.1",
+    "appium": "^2.12.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "form-data": "^4.0.1",
+    "node-fetch": "^2.7.0",
+    "nodemailer": "^6.9.15",
+    "path": "^0.12.7",
+    "wd": "^1.14.0",
+    "webdriverio": "^9.2.1"
+  },
+  "devDependencies": {
+    "@wdio/allure-reporter": "^9.0.8",
+    "allure-commandline": "^2.30.0",
+    "allure-mocha": "^3.0.5",
+    "appium-uiautomator2-driver": "^3.7.6",
+    "chai": "^5.1.1",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "lint-staged": "^15.2.9",
+    "mocha": "^10.7.3",
+    "prettier": "^3.3.3",
+    "sinon": "^18.0.0"
+  }
+}

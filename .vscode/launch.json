@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python 디버거: 현재 파일",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node-terminal",
+      "name": "JavaScript 디버그 터미널",
+      "request": "launch",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

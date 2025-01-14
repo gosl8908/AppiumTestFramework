@@ -1,0 +1,112 @@
+name: Android Appium Tests
+
+on:
+    schedule:
+        - cron: '0 23 * * 0-4' # UTC 기준 매주 일요일 ~ 목요일 23:00 (KST: 8:00 AM)
+        - cron: '0 5 * * 1-5' # UTC 기준 매주 월요일 ~ 금요일 04:00 (KST: 2:00 PM)
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    # App-test:
+    #     runs-on: self-hosted
+    #     env:
+    #         TZ: 'Asia/Seoul'
+    #         DOORAY_EMAIL_ID: ${{ secrets.DOORAY_EMAIL_ID }}
+    #         DOORAY_EMAIL_ID2: ${{ secrets.DOORAY_EMAIL_ID2 }}
+    #         DOORAY_EMAIL_PWD: ${{ secrets.DOORAY_EMAIL_PWD }}
+
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v3
+
+    #         - name: Set up Node.js
+    #           uses: actions/setup-node@v3
+    #           with:
+    #               node-version: '21.7.1' # 원하는 Node.js 버전으로 변경 가능
+
+    #         - name: Install Yarn
+    #           run: npm install -g yarn
+    #           shell: cmd
+
+    #         - name: Install Appium
+    #           run: yarn global add appium
+    #           shell: cmd
+
+    #         - name: Install Appium Drivers
+    #           run: appium driver install uiautomator2
+    #           shell: cmd
+
+    #         - name: Install Dependencies
+    #           run: yarn install
+    #           shell: cmd
+
+    #         - name: Run signup Test
+    #           run: |
+    #               start /B appium --port 4725
+    #               echo "Running App signup tests on a real device..."
+    #               yarn mocha scheduled/app/signup.js
+    #           shell: cmd
+    #           continue-on-error: true # 첫 번째 테스트 실패 시에도 다음 단계 진행
+
+    #         - name: Run store_order Test
+    #           run: |
+    #               start /B appium --port 4725
+    #               echo "Running App store_order tests on a real device..."
+    #               yarn mocha scheduled/app/store_매장.js
+    #           shell: cmd
+    #           continue-on-error: true # 첫 번째 테스트 실패 시에도 다음 단계 진행
+
+    tableorder-test:
+        runs-on: self-hosted
+        # needs: App-test # store-tests가 완료되면 실행
+        env:
+            TZ: 'Asia/Seoul'
+            DOORAY_EMAIL_ID: ${{ secrets.DOORAY_EMAIL_ID }}
+            DOORAY_EMAIL_ID2: ${{ secrets.DOORAY_EMAIL_ID2 }}
+            DOORAY_EMAIL_PWD: ${{ secrets.DOORAY_EMAIL_PWD }}
+            DOORAY_WEB_HOOK_URL: ${{ secrets.DOORAY_WEB_HOOK_URL }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '21.7.1'
+
+            - name: Install Yarn
+              run: npm install -g yarn
+              shell: cmd
+
+            - name: Install Appium
+              run: yarn global add appium
+              shell: cmd
+
+            - name: Install Appium Drivers
+              run: appium driver install uiautomator2
+              shell: cmd
+
+            - name: Install Dependencies
+              run: yarn install
+              shell: cmd
+
+            - name: Run Appium Test
+              run: |
+                  start /B appium --port 4727
+                  echo "Running Tableorder tests on a real device..."
+                  yarn mocha scheduled/tableorder/order_후불.js
+              shell: cmd
+              continue-on-error: true
+
+            # - name: Run Appium Test
+            #   run: |
+            #       start /B appium --port 4727
+            #       echo "Running Tableorder tests on a real device..."
+            #       yarn mocha scheduled/tableorder/order_선불.js
+            #   shell: cmd
